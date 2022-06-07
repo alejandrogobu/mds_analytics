@@ -40,6 +40,9 @@ sources:
               UUID of the user that this event is associated with.
             tests:
               - not_null
+              - relationships:
+                    to: source('postgres_public','users')
+                    field: user_id
           - name: page_url
             description: >
               URL that the event happened on.
