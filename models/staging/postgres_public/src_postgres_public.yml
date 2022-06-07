@@ -195,14 +195,23 @@ sources:
               UserId of the user that placed this order.
             tests:
               - not_null
+              - relationships:
+                    to: source('postgres_public','users')
+                    field: user_id
           - name: promo_id
             description: >
               PromoId if any was used in the order.
+              - relationships:
+                    to: source('postgres_public','promos')
+                    field: promo_id
           - name: address_id
             description: >
               Delivery address for this order.
             tests:
               - not_null
+              - relationships:
+                    to: source('postgres_public','addresses')
+                    field: address_id
           - name: created_at
             description: >
               Timestamp when the order was created (UTC).
@@ -273,11 +282,17 @@ sources:
               Compound Primary key for products order_id and product_id.
             tests:
               - not_null
+              - relationships:
+                    to: source('postgres_public','orders')
+                    field: order_id
           - name: product_id
             description: > 
               Compound Primary key for products order_id and product_id.
             tests:
               - not_null
+              - relationships:
+                    to: source('postgres_public','products')
+                    field: product_id
           - name: quantity
             description: > 
               Number of units of the product in this order.
