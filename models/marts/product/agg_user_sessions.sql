@@ -25,7 +25,7 @@ int_session_events_agg AS (
         min(created_at_utc) as first_event_time_utc,
         max (created_at_utc) as last_event_time_utc,
         {%- for event_type in event_types %}
-        sum({{event_type}}) as {{event_type}}_amount
+        sum({{event_type}}) as {{event_type}}
         {%- if not loop.last %},{% endif -%}
         {% endfor %}
     FROM int_session_events_users
@@ -36,17 +36,17 @@ int_session_events_agg AS (
 
 fct_user_sessions AS (
     SELECT
-        i.session_id
-        ,i.user_id
-        ,u.first_name
-        ,u.email
+        i.session_id,
+        i.user_id,
+        u.first_name,
+        u.email,
+        i.first_event_time_utc,
+        i.last_event_time_utc,
+        DATEDIFF(MINUTE, cast(i.first_event_time_utc as timestamp), cast(i.last_event_time_utc as timestamp)) AS session_length_minutes,
         {%- for event_type in event_types %}
-        {{event_type}}_amount
+        i.{{event_type}}
         {%- if not loop.last %},{% endif -%}
         {% endfor %}
-        ,i.first_event_time_utc
-        ,i.last_event_time_utc
-        ,DATEDIFF(MINUTE, cast(i.first_event_time_utc as timestamp), cast(i.last_event_time_utc as timestamp)) AS session_length_minutes
 
     FROM int_session_events_agg I
     LEFT JOIN dim_users U ON i.user_id = u.user_id

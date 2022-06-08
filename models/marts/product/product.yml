@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: agg_user_sessions
+    description: >
+      Info about users and events aggregate by user and sessions.
+    columns:
+      - name: session_id
+        description: >
+          UUID of each browsing session on the platform which can contain many events.
+        tests:
+          - not_null
+      - name: user_id
+        description: >
+          UUID of the user that this event is associated with.
+        tests:
+          - not_null
+      - name: first_name
+        description: >
+          First name of the user.
+        tests:
+          - not_null
+      - name: email
+        description: >
+          Email address of the user.
+        tests:
+          - not_null
+      - name: page_view
+        description: >
+          Number of events of type page_view.
+        tests:
+          - not_null
+          - positive_values
+      - name: add_to_cart
+        description: >
+          Number of events of type add_to_cart.
+        tests:
+          - not_null
+          - positive_values
+      - name: checkout
+        description: >
+          Number of events of type checkout.
+        tests:
+          - not_null
+          - positive_values
+      - name: package_shipped
+        description: >
+          Number of events of type package_shipped.
+        tests:
+          - not_null
+          - positive_values
+      - name: first_event_time_utc
+        description: >
+          Timestamp that 
+        tests:
+          - not_null
+      - name: last_event_time_utc
+        description: >
+          Timestamp at which the first event of the session occurred.
+        tests:
+          - not_null
+      - name: session_length_minutes
+        description: >
+          Timestamp at which the last event of the session occurred.
+        tests:
+          - not_null
+          - positive_values
