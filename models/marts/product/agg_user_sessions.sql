@@ -11,7 +11,6 @@ int_session_events_users AS (
     FROM {{ ref('int_session_events_users') }}
     ),
     
-
 dim_users AS (
     SELECT * 
     FROM {{ ref('dim_users') }}
