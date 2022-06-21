@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized='incremental'
+    )
+}}
+
 WITH stg_postgres_public_orders AS (
     SELECT * 
     FROM {{ ref('stg_postgres_public_orders') }}
@@ -24,3 +30,10 @@ renamed_casted AS (
     )
 
 SELECT * FROM renamed_casted
+
+{% if is_incremental() %}
+
+  -- this filter will only be applied on an incremental run
+  where date_load > (select max(date_load) from {{ this }})
+
+{% endif %}
