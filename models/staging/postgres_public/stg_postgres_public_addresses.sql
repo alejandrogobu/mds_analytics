@@ -1,3 +1,5 @@
+{{ config(materialized='table') }}
+
 WITH src_addresses AS (
     SELECT * 
     FROM {{ source('postgres_public', 'addresses') }}
